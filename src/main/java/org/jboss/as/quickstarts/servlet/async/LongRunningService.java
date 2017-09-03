@@ -44,9 +44,10 @@ public class LongRunningService {
      */
     @Asynchronous
     public void readData(AsyncContext asyncContext) {
+        logger.info("Starting processing...");
         try {
             // This is just to simulate a long running operation for demonstration purposes.
-            Thread.sleep(5000);
+            Thread.sleep(1000 * Integer.valueOf(System.getenv("WAIT_SECONDS")));
 
             PrintWriter writer = asyncContext.getResponse().getWriter();
             writer.println(new SimpleDateFormat("HH:mm:ss").format(new Date()));
@@ -56,5 +57,6 @@ public class LongRunningService {
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage(), e);
         }
+        logger.info("Processing complete");
     }
 }
